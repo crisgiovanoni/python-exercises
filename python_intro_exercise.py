@@ -70,9 +70,9 @@ print(enrolled)
 # A product offer can be applied only if people buys more than 2 items, and the offer has not expired. Premium members do not need to buy a specific amount of products.
 cart = 0
 premium_member = True
-cart > 2 == True
+cart_more_than_2 = True
 offer_valid = True
-apply_offer = premium_member + cart_count + offer_valid
+apply_offer = premium_member and cart_more_than_2 and offer_valid
 print(apply_offer)
 
 # Create a variable that holds a boolean value for each of the following conditions:
@@ -88,11 +88,8 @@ u_length = len(username) < 20
 p_length = len(password) >= 5
 up_distinct = username != password
 
-if u_length == True and up_distinct == True,
-    print("Username is valid")
-
-if p_length == True and up_distinct == True,
-    print("Password is valid")
+username_starts_or_ends_with_whitespace = username[0] == " " or username[-1] == " "
+password_starts_or_ends_with_whitespace = password[0] == " " or password[-1] == " "
 
 
 # LIST COMPREHENSION #
@@ -125,10 +122,13 @@ capitalized_fruits = [fruit.capitalize() for fruit in fruits]
 print(capitalized_fruits)
 
 # Exercise 3 - Use a list comprehension to make a variable named fruits_with_more_than_two_vowels. Hint: You'll need a way to check if something is a vowel.
-vowels = {'a','e','i','o','u','A','E','I','O','U'}
-fruits_with_more_than_two_vowels = [fruit for fruit in fruits if fruit in vowels == 2]
-print(fruits_with_more_than_two_vowels)
+#vowels = {'a','e','i','o','u','A','E','I','O','U'}
+#fruits_with_more_than_two_vowels = [fruit for fruit in fruits if fruit in vowels == 2]
+#print(fruits_with_more_than_two_vowels)
 
+fruits_with_more_than_two_vowels = [fruit for fruit in fruits if
+(fruit.count("a") + fruit.count("e") + fruit.count("i") + fruit.count("o") + fruit.count("u")) > 2
+]
 # Exercise 4 - make a variable named fruits_with_only_two_vowels. The result should be ['mango', 'kiwi', 'strawberry']
 
 # Exercise 5 - make a list that contains each fruit with more than 5 characters
@@ -168,7 +168,7 @@ negative_numbers = [number for number in numbers if number < 0]
 print(negative_numbers)
 
 # Exercise 14 - use a list comprehension w/ a conditional in order to produce a list of numbers with 2 or more numerals
-two_numerals = [number for number in numbers if len(str(number)) >= 2]
+two_numerals = [number for number in numbers if len(str(abs(number))) >= 2]
 print(two_numerals)
 
 # Exercise 15 - Make a variable named numbers_squared that contains the numbers list with each element squared. Output is [4, 9, 16, etc...]
