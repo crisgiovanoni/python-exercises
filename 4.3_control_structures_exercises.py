@@ -255,3 +255,35 @@ elif grade >= 0 and grade <= 59:
     print("F : 59 - 0")
 else:
     print("Grade entered is invalid.")
+
+Create a list of dictionaries where each dictionary represents a book that you have read. Each dictionary in the list should have the keys title, author, and genre. Loop through the list and print out information about each book.
+
+Prompt the user to enter a genre, then loop through your books list and print out the titles of all the books in that genre.
+
+library = [
+    {
+        "title" : "The Seven Storey Mountain",
+        "author" : "Thomas Merton",
+        "genre" : "Autobiography"
+    },
+    {
+        "title" : "Chronicles of Narnia",
+        "author" : "C.S. Lewis",
+        "genre" : "Fantasy"
+    },
+    {
+        "title" : "The World's First Love",
+        "author" : "Fulton Sheen",
+        "genre" : "Non-fiction"
+    }
+    
+]
+
+for book in library:
+    print(book)
+    
+genre_user = input("Choose a genre: ")
+
+for book in library:
+    if genre_user == book["genre"]:
+        print(book)
