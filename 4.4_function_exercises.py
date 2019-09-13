@@ -130,3 +130,58 @@ def normalize_name(word):
 
 print(normalize_name(" Hello World"))
 
+# def cumsum(my_list):
+#     """
+#     Write a function named cumsum that accepts a list of numbers and
+#     returns a list that is the cumulative sum of the numbers in the list.
+#     """
+#     my_list.insert(0,0)
+#     new_list = []
+
+#     for num in my_list:
+#         num = num + my_list[my_list.index(num)-1] + my_list[my_list.index(num)-2] #num = value of num + value of before num
+#         new_list.append(num) #insert num on the list
+#         if  new_list.index(num) == len(my_list): #position of num = position of last value
+#             break
+    
+#     del new_list[0]
+#     return new_list
+
+# print(cumsum([1,2,3,4]))
+
+def cumsum(my_list):
+    """
+    Write a function named cumsum that accepts a list of numbers and
+    returns a list that is the cumulative sum of the numbers in the list.
+    """
+    new_list = []
+    for num in my_list:
+        my_list.append(num)
+        sum_list = sum(sum_list)
+        
+
+
+## use this as value of num >> my_list[my_list.index(num)
+
+my_list.index(num) = position of num
+my_list.index(num) - 1 = position
+
+my_list = [1, 2, 3, 4]
+my_list.index(3) = position of 2
+my_list.index(2) - 1 = position of before 2
+
+my_list[my_list.index(2)] 
+my_list[my_list.index(2)-1] 
+
+my_list.index(num) = position of num
+my_list.index(num) - 1 = position of before num
+my_list.index(num) - 1 = position of before num
+
+
+my_list[my_list.index(num)] = value of num
+my_list[my_list.index(num)-1] = value of before num
+
+• cumsum([1, 1, 1]) returns [1, 2, 3]
+
+
+cumsum([1, 2, 3, 4]) returns [1, 3, 6, 10]
