@@ -115,4 +115,18 @@ def remove_vowels(word):
 
 print(remove_vowels("apple"))
 
+def normalize_name(word):
+    """
+    Define a function named normalize_name. It should accept a string and return a valid python identifier, that is:
+    anything that is not a valid python identifier should be removed
+    leading and trailing whitespace should be removed -- strip
+    everything should be lowercase -- lower
+    spaces should be replaced with underscores --replace
+    """
+    word = word.strip()
+    word = word.lower()
+    word = word.replace(" ","_")
+    return word
+
+print(normalize_name(" Hello World"))
 
