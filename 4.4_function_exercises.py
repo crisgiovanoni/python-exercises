@@ -47,6 +47,10 @@ def capitalize_consonant(x):
 
 print(capitalize_consonant("apple"))
 
+#short version of if-else
+def cap_if_consonant(word):
+    return word.capitalize() if is_consonant(word[0]) else word
+
 def calculate_tip(tip=0.2, bill_total=65):
     """
     Define a function named calculate_tip.
