@@ -6,6 +6,8 @@ a = np.array([4, 10, 12, 23, -2, -1, 0, 0, 0, -6, 3, -7])
 negatives_in_a = a[a < 0]
 print(len(negatives_in_a))
 
+type(a<0) # this is an array of booleans
+
 # How many positive numbers are there?
 
 positives_in_a = a[a > 0]
@@ -16,7 +18,18 @@ print(len(positives_in_a))
 evens_in_a = a[a % 2 == 0]
 print(evens_in_a)
 
-np.intersect1d(positives_in_a, evens_in_a)
+len(np.intersect1d(positives_in_a, evens_in_a))
+
+# or (ryan's solution)
+
+is_positive_mask = a > 0
+positives = a[is_positive_mask]
+
+is_even_mask = positives % 2 == 0
+positive_evens = positives[is_even_mask]
+
+len(positive_evens)
+
 
 # If you were to add 3 to each data point, how many positive numbers would there be?
 
@@ -30,6 +43,8 @@ len(plus_3[plus_3 > 0])
 squared_a = a ** 2
 squared_a.mean()
 squared_a.std()
+
+# type(squared_a.mean())
 
 # A common statistical operation on a dataset is centering. This means to adjust the data such that the center of the data is at 0. This is done by subtracting the mean from each data point. Center the data set.
 a.mean() # see what mean is
@@ -191,8 +206,8 @@ print(evens_in_b)
 
 b.shape
 
-# Exercise 10 - transpose the array b.
-np.transpose(b)
+# Exercise 10 - transpose the array b
+b.transpose()
 
 # Exercise 11 - reshape the array b to be a single list of 6 numbers. (1 x 6)
 b.reshape((1,6))
@@ -206,7 +221,6 @@ c = [
     [4, 5, 6],
     [7, 8, 9]
 ]
-
 type(c)
 c = np.array(c)
 type(c)
@@ -294,3 +308,11 @@ print(d_transpose)
 # Exercise 10 - Reshape d into an array of 9 x 2
 d_reshape = d.reshape((9,2))
 print(d_reshape)
+
+v = [1,3]
+v = np.array(v)
+
+w = [1,3]
+w = np.array(w)
+
+np.dot(v,w)
