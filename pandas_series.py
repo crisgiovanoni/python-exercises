@@ -22,16 +22,50 @@ fruits.mode()
 # Determine the least frequently occurring fruit name from the series.
 fruits.nsmallest()
 
+least_frequent = fruits.value_counts().min()
+least_frequent
+
+frequencies = fruits.value_counts()
+frequencies
+
+frequencies[frequencies == least_frequent]
+
 # Write the code to get the longest string from the fruits series.
-fruits.max()
+fruits.str.len().idxmax()
+
+fruit_names = fruits.unique()
+fruit_names = pd.Series(fruit_names)
+length_of_longest_string = fruit_names.str.len().max() # the length of the longest string
+index_of_longest_string = fruit_names.str.len().idxmax() # the index of the longest string
+longest_string = fruit_names[index_of_longest_string]
+
+print("The longest string in the list of fruits is", longest_string, "and it has", length_of_longest_string)
+
+# handling multiple longest_string
+length_of_longest_string = fruit_names.str.len().max() #length of longest string
+length_of_longest_string
+fruit_names[fruit_names.str.len() == length_of_longest_string]
 
 # Find the fruit(s) with 5 or more letters in the name.
 
+five_or_more = fruits.apply(lambda x:len(x) >= 5)
+fruits[five_or_more] #boolean masking/indexing
 
 # Capitalize all the fruit strings in the series.
 fruits.str.capitalize()
 
 # Count the letter "a" in all the fruits (use string vectorization)
+
+counts_of_a = fruit_names.str.count("a")
+counts_of_a
+fruit_names
+counts_of_a
+
+list(zip(fruit_names, counts_of_a))
+
+#another approach
+for i, fruit in enumerate(fruit_names):
+    print(fruit,"has",counts_of_a[i],"number of 'a' characters.")
 
 # Output the number of vowels in each and every fruit.
 
