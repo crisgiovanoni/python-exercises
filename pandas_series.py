@@ -2,6 +2,7 @@
 
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
 
 # Name the variable that holds the series fruits.
 fruits = ["kiwi", "mango", "strawberry", "pineapple", "gala apple", "honeycrisp apple", "tomato", "watermelon", "honeydew", "kiwi", "kiwi", "kiwi", "mango", "blueberry", "blackberry", "gooseberry", "papaya"]
@@ -38,6 +39,8 @@ fruit_names = pd.Series(fruit_names)
 length_of_longest_string = fruit_names.str.len().max() # the length of the longest string
 index_of_longest_string = fruit_names.str.len().idxmax() # the index of the longest string
 longest_string = fruit_names[index_of_longest_string]
+
+fruit_names
 
 print("The longest string in the list of fruits is", longest_string, "and it has", length_of_longest_string)
 
@@ -83,15 +86,16 @@ fruits.apply(count_vowels)
 # Use the .apply method and a lambda function to find the fruit(s) containing two or more "o" letters in the name.
 fruits.get_values.apply(lambda x: x.count("o") >= 2)
 
-# count_g = lambda x: x.count("g")
+fruits[fruits.apply(lambda x: x.count("o") >= 2)]
+
 # Write the code to get only the fruits containing "berry" in the name
-fruits.(lambda x: x in "berry")
+fruits[fruits.apply(lambda x: "berry" in x)]
 
 # Write the code to get only the fruits containing "apple" in the name
-fruits.apply(lambda x: x in "berry")
+fruits[fruits.apply(lambda x: "apple" in x)]
 
 # Which fruit has the highest amount of vowels?
-fruits.apply(count_vowels).sum()
+fruits[fruits.apply(count_vowels).idxmax()]
 
 # Use pandas to create a Series from the following data:
 
@@ -106,6 +110,8 @@ assets.dtype
 assets = assets.str.replace(",","")
 assets = assets.str.replace("$","")
 assets = assets.astype(float)
+
+str.lstrip
 
 # What is the maximum value? The minimum?
 assets.max()
@@ -151,6 +157,11 @@ def convert_grade(n):
 
 scores.apply(convert_grade)
 
+#other approach using bins
+exam_scores = [60, 86, 75, 62, 93, 71, 60, 83, 95, 78, 65, 72, 69, 81, 96, 80, 85, 92, 82, 78]
+
+letter_scores = pd.cut(exam_scores, bins = [0,60,70,80,90,100], labels = ['f','d','c','b','a'])
+
 # Write the code necessary to implement a curve. I.e. that grade closest to 100 should be converted to a 100, and that many points should be given to every other score as well.
 
 scores
@@ -167,6 +178,9 @@ super_cali = pd.Series(super_cali)
 super_cali.mode()
 
 super_cali.value_counts().idxmin()
+
+#misty's solution
+super_cali[super_cali.value_counts() == super_cali.value_counts().mode()]
 
 # How many vowels are in the list?
 
@@ -191,3 +205,130 @@ frequencies
 top_six_letters = frequencies.head(6)
 
 top_six_letters.plot.bar(color = "lightslategray")
+
+### DATA FRAME ###
+
+from pydataset import data
+
+mpg = data('mpg')
+
+np.random.seed(123)
+
+students = ['Sally', 'Jane', 'Suzie', 'Billy', 'Ada', 'John', 'Thomas',
+            'Marie', 'Albert', 'Richard', 'Isaac', 'Alan']
+
+# randomly generate scores for each student for each subject
+# note that all the values need to have the same length here
+math_grades = np.random.randint(low=60, high=100, size=len(students))
+english_grades = np.random.randint(low=60, high=100, size=len(students))
+reading_grades = np.random.randint(low=60, high=100, size=len(students))
+
+df = pd.DataFrame({'name': students,
+                   'math': math_grades,
+                   'english': english_grades,
+                   'reading': reading_grades})
+
+type(df)
+
+# Create a column named passing_english that indicates whether each student has a passing grade in reading.
+
+df["passing_english"] = df.reading >= 70
+
+df
+
+# Sort the english grades by the passing_english column. How are duplicates handled?
+df
+df.sort_values(by="passing_english")
+
+# Sort the english grades first by passing_english and then by student name. All the students that are failing english should be first, and within the students that are failing english they should be ordered alphabetically. The same should be true for the students passing english. (Hint: you can pass a list to the .sort_values method)
+df
+df['english'].sort_values(["passing_english","name"])
+
+# Sort the english grades first by passing_english, and then by the actual english grade, similar to how we did in the last step.
+df.sort_values(["english","passing_english","name"])
+
+# Calculate each students overall grade and add it as a column on the dataframe. The overall grade is the average of the math, english, and reading grades.
+df["overall_grade"] = (df.math + df.english + df.reading)/3
+df
+
+# Load the mpg dataset. Read the documentation for the dataset and use it for the following questions:
+
+mpg
+
+# How many rows and columns are there?
+
+mpg.info
+#234 rows, 11 columns
+
+# What are the data types of each column?
+mpg.dtypes
+# manufacturer     object
+# model            object
+# displ           float64
+# year              int64
+# cyl               int64
+# trans            object
+# drv              object
+# cty               int64
+# hwy               int64
+# fl               object
+# class            object
+# dtype: object
+
+# Summarize the dataframe with .info and .describe
+mpg.describe()
+mpg.info
+
+# Rename the cty column to city.
+mpg.rename(columns={"cty":"city"})
+
+# Rename the hwy column to highway.
+mpg.rename(columns={"hwy":"highway"})
+
+# Do any cars have better city mileage than highway mileage?
+comparison = mpg.cty > mpg.hwy
+comparison
+
+mpg[comparison]
+
+# Create a column named mileage_difference this column should contain the difference between highway and city mileage for each car.
+mpg["mileage_difference"] = mpg.hwy - mpg.cty
+mpg.head()
+
+# Which car (or cars) has the highest mileage difference?
+mpg.sort_values(by="mileage_difference", ascending=False).head(1)
+
+# Which compact class car has the lowest highway mileage? The best?
+mpg[mpg["class"] == "compact"].sort_values(by="hwy").head(1)
+mpg[mpg["class"] == "compact"].sort_values(by="hwy", ascending=False).head(1)
+
+# Create a column named average_mileage that is the mean of the city and highway mileage.
+average_mileage = (mpg.cty+mpg.hwy)/2
+
+mpg["average_mileage"] = average_mileage
+mpg.head()
+
+# Which dodge car has the best average mileage? The worst?
+
+mpg[mpg.manufacturer == "dodge"].sort_values(by="average_mileage", ascending=False).head(1)
+mpg[mpg.manufacturer == "dodge"].sort_values(by="average_mileage").head(1)
+
+# Load the Mammals dataset. Read the documentation for it, and use the data to answer these questions:
+mammals = data("Mammals")
+
+# How many rows and columns are there?
+mammals.shape
+#62 rows, 2 columns
+
+# What are the data types?
+mammals.dtypes
+#body and brain are both floats
+
+# Summarize the dataframe with .info and .describe
+mammals.info
+mammals.describe()
+
+# What is the the weight of the fastest animal?
+mammals.sort_values(by="speed", ascending=False).
+# What is the overal percentage of specials?
+# How many animals are hoppers that are above the median speed? What percentage is this?
