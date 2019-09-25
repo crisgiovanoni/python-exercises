@@ -167,7 +167,27 @@ super_cali = pd.Series(super_cali)
 super_cali.mode()
 
 super_cali.value_counts().idxmin()
+
 # How many vowels are in the list?
+
+super_cali.apply(count_vowels).sum()
+
 # How many consonants are in the list?
+
+vowels = super_cali.apply(count_vowels).sum()
+
+consonants = super_cali.count() - vowels
+consonants
+
 # Create a series that has all of the same letters, but uppercased
+super_cali_ucase = super_cali.str.upper()
+super_cali_ucase
+
 # Create a bar plot of the frequencies of the 6 most frequently occuring letters.
+
+frequencies = super_cali.value_counts()
+frequencies
+
+top_six_letters = frequencies.head(6)
+
+top_six_letters.plot.bar(color = "lightslategray")
