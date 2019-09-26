@@ -329,6 +329,19 @@ mammals.info
 mammals.describe()
 
 # What is the the weight of the fastest animal?
-mammals.sort_values(by="speed", ascending=False).
+mammals.sort_values(by="speed", ascending=False).head(1).weight
 # What is the overal percentage of specials?
+specials_true = mammals.specials.sum()
+specials_false = mammals.specials.count() - specials_true
+
+count_of_specials = specials_true + specials_false
+
+percentage_of_special = (specials_true/count_of_specials)*100
+percentage_of_non_special = (specials_false/count_of_specials)*100
+
+print("The percentage of specials is",round(percentage_of_special,2), "%")
+
 # How many animals are hoppers that are above the median speed? What percentage is this?
+median_speed = mammals.speed.median()
+
+mammals[lambda x: mammals.hoppers][mammals.speed > median_speed].hoppers.count()
