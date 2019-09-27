@@ -233,7 +233,6 @@ type(df)
 # Create a column named passing_english that indicates whether each student has a passing grade in reading.
 
 df["passing_english"] = df.reading >= 70
-
 df
 
 # Sort the english grades by the passing_english column. How are duplicates handled?
@@ -242,7 +241,7 @@ df.sort_values(by="passing_english")
 
 # Sort the english grades first by passing_english and then by student name. All the students that are failing english should be first, and within the students that are failing english they should be ordered alphabetically. The same should be true for the students passing english. (Hint: you can pass a list to the .sort_values method)
 df
-df['english'].sort_values(["passing_english","name"])
+df.english.sort_values(["passing_english","name"])
 
 # Sort the english grades first by passing_english, and then by the actual english grade, similar to how we did in the last step.
 df.sort_values(["english","passing_english","name"])
@@ -257,7 +256,7 @@ mpg
 
 # How many rows and columns are there?
 
-mpg.info
+mpg.shape
 #234 rows, 11 columns
 
 # What are the data types of each column?
@@ -296,7 +295,7 @@ mpg["mileage_difference"] = mpg.hwy - mpg.cty
 mpg.head()
 
 # Which car (or cars) has the highest mileage difference?
-mpg.sort_values(by="mileage_difference", ascending=False).head(1)
+mpg.sort_values(by="mileage_difference", ascending=False).head(2) #2 cars had difference of 12
 
 # Which compact class car has the lowest highway mileage? The best?
 mpg[mpg["class"] == "compact"].sort_values(by="hwy").head(1)
@@ -308,6 +307,9 @@ average_mileage = (mpg.cty+mpg.hwy)/2
 mpg["average_mileage"] = average_mileage
 mpg.head()
 
+#david's solution for computing for average
+mpg[['highway','city']].apply(np.mean, axis=1)
+
 # Which dodge car has the best average mileage? The worst?
 
 mpg[mpg.manufacturer == "dodge"].sort_values(by="average_mileage", ascending=False).head(1)
@@ -315,14 +317,14 @@ mpg[mpg.manufacturer == "dodge"].sort_values(by="average_mileage").head(1)
 
 # Load the Mammals dataset. Read the documentation for it, and use the data to answer these questions:
 mammals = data("Mammals")
-
+data('Mammals',show_doc=True)
 # How many rows and columns are there?
 mammals.shape
-#62 rows, 2 columns
+#107 rows, 4 columns
 
 # What are the data types?
 mammals.dtypes
-#body and brain are both floats
+#weight and speed are floats, hoppers and specials are booleans
 
 # Summarize the dataframe with .info and .describe
 mammals.info
@@ -330,6 +332,7 @@ mammals.describe()
 
 # What is the the weight of the fastest animal?
 mammals.sort_values(by="speed", ascending=False).head(1).weight
+
 # What is the overal percentage of specials?
 specials_true = mammals.specials.sum()
 specials_false = mammals.specials.count() - specials_true
@@ -341,7 +344,14 @@ percentage_of_non_special = (specials_false/count_of_specials)*100
 
 print("The percentage of specials is",round(percentage_of_special,2), "%")
 
+#alternative solutions
+sum(mammals.specials==True)/len(mammals)*100
+(mammals.specials==True).mean()*100
+
 # How many animals are hoppers that are above the median speed? What percentage is this?
 median_speed = mammals.speed.median()
 
-mammals[lambda x: mammals.hoppers][mammals.speed > median_speed].hoppers.count()
+hoppers_above_median = mammals[lambda x: mammals.hoppers][mammals.speed > median_speed].hoppers.count()
+hoppers_above_median
+
+round(hoppers_above_median/len(mammals)*100,2)
