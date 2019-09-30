@@ -355,3 +355,4 @@ hoppers_above_median = mammals[lambda x: mammals.hoppers][mammals.speed > median
 hoppers_above_median
 
 round(hoppers_above_median/len(mammals)*100,2)
+

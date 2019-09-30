@@ -104,7 +104,7 @@ host = host
 user = user
 password = password
 
-url = get_db_url(host,password,host,"employees")
+url = get_db_url(user,password,host,"employees")
 url
 
 
@@ -172,8 +172,17 @@ pd.crosstab(departments_with_title.title, departments_with_title.dept_name)
 
 # Use your get_db_url function to help you explore the data from the chipotle database. Use the data to answer the following questions:
 
+def get_db_url(u,p,h,d):
+    url = f'mysql+pymysql://{u}:{p}@{h}/{d}'
+    return url
 
-chipotle_url = get_db_url("bayes_819","JH4OscOawDom6Kq29wWZQuOQXzxrWYmx","157.230.209.171","chipotle")
+from env import host, user, password
+
+host = host
+user = user
+password = password
+
+chipotle_url = get_db_url(user,password,host,"chipotle")
 
 chipotle = pd.read_sql('SELECT * FROM orders', chipotle_url)
 
