@@ -111,5 +111,23 @@ sns.barplot(x="id",y="item_price",data=top_four_items)
 
 sleepstudy = data("sleepstudy")
 
+#fix subject data type
+
+def change_to_string(integer):
+    word = str(integer)
+    word_list = []
+    for d in word:
+        word_list.append(d)
+        word_list.append("-")
+    word = "".join(word_list)
+    return word
+
+change_to_string(308)
+
+sleepstudy["Subject"] = sleepstudy["Subject"].apply(change_to_string)
+sleepstudy.dtypes
+sleepstudy.head(1)
+
+#plot
 sns.lineplot(x="Days", y="Reaction",hue="Subject",data=sleepstudy)
-plt.hlines(sleepstudy["Reaction"].mean(), 0, 10, ls=':')
+plt.hlines(sleepstudy["Reaction"].mean(), 0, 9, ls=':')
